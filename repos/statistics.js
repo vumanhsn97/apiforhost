@@ -20,8 +20,7 @@ exports.load7LatestDaysOfStatistic = (Loai, MaBenhNhan) => {
             SELECT MAX(NgayNhap) max_time
             FROM chi_so
             WHERE Loai = ${Loai} AND MaBenhNhan = '${MaBenhNhan}'
-            GROUP BY Date(NgayNhap)
-            ORDER BY NgayNhap DESC
+            GROUP BY Date(NgayNhap) DESC
             LIMIT 7
         ) AS t
         ON cs.NgayNhap = t.max_time AND cs.Loai = ${Loai}
