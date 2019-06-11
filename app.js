@@ -57,6 +57,7 @@ var sessionStore = new MySQLStore({
   password: '1234',
   user: 'root',
   database: 'glucose_care',
+  // timezone: 'utc',
   createDatabaseTable: true,
   schema: {
     tableName: 'sessions',

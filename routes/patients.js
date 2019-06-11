@@ -2,6 +2,7 @@ var express = require('express');
 var SHA256 = require('crypto-js/sha256');
 
 var patientsRepo = require('../repos/patients')
+var statisticsRepo = require('../repos/statistics')
 var constants = require('../constants')
 var router = express.Router();
 
@@ -320,7 +321,9 @@ router.post('/add-my-statistic', (req, res) => {
         ChiSo: req.body.ChiSo,
         NgayNhap: req.body.NgayNhap
     };
-    patientsRepo.addMyStatistic(patient).then(() => {
+    var p1 = statisticsRepo.addStatistic(patient);
+    var p2 = statisticsRepo.updateStatistic(patient);
+    Promise.all([p1, p2]).then(([rows1, rows2]) => {
         return res.status(200).json({
             my_statistic: patient,
             status: 'success'

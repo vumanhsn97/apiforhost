@@ -7,7 +7,8 @@ exports.load = sql => {
             port: 3306,
 			password: '1234',
             user: 'root',
-            database: 'glucose_care'
+            database: 'glucose_care',
+            // timezone: 'utc'
         });
 
         cn.connect();
@@ -31,7 +32,8 @@ exports.save = sql => {
             port: 3306,
 			password: '1234',
             user: 'root',
-            database: 'glucose_care'
+            database: 'glucose_care',
+            // timezone: 'utc'
         });
 
         cn.connect();
