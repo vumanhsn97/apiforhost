@@ -3,7 +3,7 @@ var mysql = require('mysql');
 exports.load = sql => {
     return new Promise((resolve, reject) => {
         var cn = mysql.createConnection({
-            host: '35.202.145.197',
+            host: '35.197.157.75',
             port: 3306,
 			password: '1234',
             user: 'root',
@@ -28,7 +28,7 @@ exports.load = sql => {
 exports.save = sql => {
     return new Promise((resolve, reject) => {
         var cn = mysql.createConnection({
-            host: '35.202.145.197',
+            host: '35.197.157.75',
             port: 3306,
 			password: '1234',
             user: 'root',

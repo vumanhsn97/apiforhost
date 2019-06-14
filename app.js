@@ -39,7 +39,7 @@ app.set('view engine', 'jade');
 
 app.use(cors({
   credentials: true,
-  origin: 'http://healthforpeople.appspot.com/',
+  origin: 'https://carehealth-242817.appspot.com/',
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'OPTION'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 204
@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //session
 var sessionStore = new MySQLStore({
-  host: '35.202.145.197',
+  host: '35.197.157.75',
   port: 3306,
   password: '1234',
   user: 'root',
@@ -123,10 +123,19 @@ io.on('connection', function (socket) {
     //   global.patientId[info.id] = socket.id
     // else if (info.loai === 2)
     //   global.doctorId[info.id] = socket.id
+    console.log('join');
     socket.join(`${info.LoaiTaiKhoan}/${info.MaTaiKhoan}`);
   });
+  socket.emit('rejoin room', function (info) {
+    console.log('rejoin')
+    // socket.join(`${info.LoaiTaiKhoan}/${info.MaTaiKhoan}`);
+  });
+  socket.on('leave room', function (info) {
+    console.log('leave room')
+    socket.leave(`${info.LoaiTaiKhoan}/${info.MaTaiKhoan}`);
+  });
   socket.on('chat message', function (chat) {
-    axios.post('http://healthforpeople.appspot.com/chatnotifications/update-seen-messages', {chat: chat})
+    axios.post('https://carehealth-242817.appspot.com/chatnotifications/update-seen-messages', {chat: chat})
     
     .then((result) => {
       if (result.data.changedRows > 0){
@@ -146,7 +155,7 @@ io.on('connection', function (socket) {
     io.to(`${info.LoaiNguoiNhan}/${info.MaNguoiNhan}`).emit('update relationship', info)
   })
   socket.on('create notifications', function (info) {
-    axios.post('http://healthforpeople.appspot.com/notifications/newNotifications', info)
+    axios.post('https://carehealth-242817.appspot.com/notifications/newNotifications', info)
       .then((result) => {
         if (result.data.status==='success') {
           // if (global.patientId[result.data.MaTaiKhoan] && result.data.LoaiNguoiChinh===1) {
@@ -227,7 +236,7 @@ io.on('connection', function (socket) {
       })
   })
   socket.on('get notifications number', function (info) {
-    axios.get(`http://healthforpeople.appspot.com/notifications/numberNotificationsNotSeen?MaTaiKhoan=${info.MaTaiKhoan}&LoaiTaiKhoan=${info.LoaiTaiKhoan}`)
+    axios.get(`https://carehealth-242817.appspot.com/notifications/numberNotificationsNotSeen?MaTaiKhoan=${info.MaTaiKhoan}&LoaiTaiKhoan=${info.LoaiTaiKhoan}`)
       .then((result) => {
         // if (global.patientId[result.data.MaTaiKhoan] && result.data.LoaiTaiKhoan===1) {
         //   console.log(global.patientId[result.data.number.MaTaiKhoan])
@@ -251,7 +260,7 @@ io.on('connection', function (socket) {
       })
   })
   socket.on('seen notifications', function (info) {
-    axios.post('http://healthforpeople.appspot.com/notifications/seenNotifications', {MaTaiKhoan: info.MaTaiKhoan, LoaiTaiKhoan: info.LoaiTaiKhoan})
+    axios.post('https://carehealth-242817.appspot.com/notifications/seenNotifications', {MaTaiKhoan: info.MaTaiKhoan, LoaiTaiKhoan: info.LoaiTaiKhoan})
       .then((result) => {
         if (result.data.status==='success')
         //   if (global.patientId[result.data.MaTaiKhoan] && result.data.LoaiTaiKhoan===1) {
